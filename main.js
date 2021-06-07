@@ -57,20 +57,22 @@ const changeHP = (player) => {
   playerLife.style.width = randomHpSubtract(player) + '%';
  
   if(player.hp <= 0 && player.player == 1){
-    arenas.appendChild(playerWins(player2.name));
-    player.hp = 0;
-    playerLife.style.width = '0%';
-    randomButton.disabled = true;
-    const winner = document.querySelector('.player2 .character');
-    winner.classList.add('winner');
+    getWinner(player, player2, playerLife);
   } else if(player.hp <= 0 && player.player == 2){
-    arenas.appendChild(playerWins(player1.name));
-    player.hp = 0;
-    playerLife.style.width = '0%';
-    randomButton.disabled = true;
-    const winner = document.querySelector('.player1 .character');
-    winner.classList.add('winner');
+    getWinner(player, player1, playerLife);
   }
+}
+
+
+
+
+function getWinner (losePlayer, winPlayer, playerLife = false) {
+  arenas.appendChild(playerWins(winPlayer.name));
+  losePlayer.hp = 0;
+  playerLife.style.width = '0%';
+  randomButton.disabled = true;
+  const winner = document.querySelector(`.player${winPlayer.player} .character`);
+  winner.classList.add('winner');
 }
 
 const randomHpSubtract = (player) =>{
