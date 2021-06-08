@@ -278,6 +278,7 @@ body {
     font-family: "Mortal Kombat 3";
 }
 
+
 .winTitle {
     position: absolute;
     top: 25%;
@@ -291,6 +292,16 @@ body {
     font-family: "Mortal Kombat 3";
 }
 
+.reloadWrap {
+    position: absolute;
+    z-index: 1000;
+    animation: flyingBtn 2s linear forwards;
+    transform: translate(-50%, 0%);
+}
+
+.reloadWrap .button {
+    margin-top: 0;
+}
 
 @keyframes win{
     0%{
@@ -316,5 +327,32 @@ body {
     }
     100%{
         bottom: 20px;
+    }
+}
+
+@keyframes flyingBtn{
+    0%{
+        top: 30%;
+        left: 20%;
+    }
+    20%{
+        top: 35%;
+        left: 10%;
+    }
+    40%{
+        top: 25%;
+        left: 40%;
+    }
+    60%{
+        top: 20%;
+        left: 20%;
+    }
+    80%{
+        top: 15%;
+        left: 60%;
+    }
+    100%{
+        top: 10%;
+        left: 50%;
     }
 }
