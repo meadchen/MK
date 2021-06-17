@@ -1,4 +1,4 @@
-import {arenas} from "./fight.js";
+import {arenas} from "./Game/game.js";
 
 export const createElement = (tag, className) => {
     const createdTag = document.createElement(tag);
@@ -10,6 +10,14 @@ export const createElement = (tag, className) => {
 
  export function getRandom (num){
      return Math.ceil(Math.random() * num);
+ }
+
+ export const getTime = () => {
+    const date = new Date();
+    return new Intl.DateTimeFormat('default', {
+        hour: 'numeric',
+        minute: 'numeric',
+    }).format(date);
  }
 
  export const createReloadButton = () =>{
