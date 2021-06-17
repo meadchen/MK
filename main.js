@@ -1,3 +1,12 @@
+
+import { player1, player2, createPlayer } from './players.js';
+import generateLogs from "./logs.js";
+import {arenas, formFight, enemyAttack, playerAttack, showResult} from "./fight.js";
+
+
+arenas.appendChild(createPlayer(player1));
+arenas.appendChild(createPlayer(player2));
+
 const arenas = document.querySelector('.arenas');
 const formFight = document.querySelector('.control');
 const buttonFight = document.querySelector('.buttonWrap .button');
@@ -37,13 +46,9 @@ const player2 = {
   renderHP
 }
 
-function createElement (tag, className){
-  const createdTag = document.createElement(tag);
-  if(className){
-    createdTag.classList.add(className)
-  }
-  return createdTag;
-}
+
+generateLogs('start', player2, player1);
+
 
 function createPlayer (playerObj){
   const player = createElement('div', 'player' + playerObj.player);
@@ -59,45 +64,44 @@ function createPlayer (playerObj){
   progressbar.appendChild(name);
   character.appendChild(img);
 
-  life.style.width = playerObj.hp + '%';
-  name.innerText = playerObj.name;
-  img.src = playerObj.img;
 
-  return player;
-}
+formFight.addEventListener('submit', function(e){
+  e.preventDefault();
+  const enemy = enemyAttack();
+  const player = playerAttack();
+  player1.attackValue = player.value;
+  player2.attackValue = enemy.value;
+
+
+
+  if (player.defence != enemy.hit){
+    player1.changeHP(enemy.value);
+    player1.renderHP();
+    generateLogs('hit', player2, player1);
+  } else {
+    generateLogs('defence', player1, player2);
 
 function changeHP (num) {
   this.hp -= num;
   if(this.hp <= 0){
     this.hp = 0;
   }
-}
 
-function elHP (){
-  return document.querySelector(`.player${this.player} .life`);
-}
-
-function renderHP (){
-  this.elHP().style.width = this.hp + '%';
-}
-
-
-function getWinner (winPlayer) {
-  const winner = document.querySelector(`.player${winPlayer.player} .character`);
-  winner.classList.add('winner');
-}
-
-function getRandom (num){
-  return Math.ceil(Math.random() * num);
-}
-
-function playerWins (name){
-  const winTitle = createElement('div', 'winTitle');
-  if (name){
-    winTitle.innerText = name + ' wins';
-  } else{
-    winTitle.innerText = 'draw';
+  if (enemy.defence != player.hit){
+    player2.changeHP(player.value);
+    player2.renderHP();
+    generateLogs('hit', player1, player2);
+  } else {
+    generateLogs('defence', player2, player1);
   }
+
+
+  showResult();
+
+  console.log(player);
+  console.log(enemy);
+
+});
 
   return winTitle;
 }
@@ -173,7 +177,4 @@ formFight.addEventListener('submit', function(e){
     arenas.appendChild(playerWins());
   }
 
-  //console.log(attack);
-  //console.log(enemy);
-
-});
+ 
