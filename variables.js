@@ -1,6 +1,12 @@
-import {getRandom} from "./utils.js";
+export const formFight = document.querySelector('.control');
+export const buttonFight = document.querySelector('.buttonWrap .button');
+export const HIT = {
+    head: 30,
+    body: 25,
+    foot: 20
+}
+export const ATTACK = ['head', 'body', 'foot']
 
-const chat = document.querySelector('.chat');
 export const logs = {
     start: 'Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.',
     end: [
@@ -40,48 +46,3 @@ export const logs = {
     ],
     draw: 'Ничья - это тоже победа!'
 };
-
-const getTime = () =>{
-    const date = new Date();
-    return new Intl.DateTimeFormat('default', {
-        hour: 'numeric',
-        minute: 'numeric',
-    }).format(date);
-}
-
-function generateLogs(type, player1, player2){
-    switch (type){
-        case 'start':
-            const start = logs[type].replace('[time]', getTime()).replace('[player1]', player1.name).replace('[player2]', player2.name);
-            const begin = `<p>${start}</p>`;
-            chat.insertAdjacentHTML('afterbegin', begin);
-            break;
-        case 'hit': {
-            const text = logs[type][getRandom(logs[type].length) - 1].replace('[playerKick]', player1.name).replace('[playerDefence]', player2.name);
-            const el = `<p>${getTime()} - ${text} - ${player1.attackValue} [${player2.hp}/100]</p>`;
-            chat.insertAdjacentHTML('afterbegin', el);
-            break;
-        }
-        case 'defence': {
-            const text = logs[type][getRandom(logs[type].length) - 1].replace('[playerKick]', player2.name).replace('[playerDefence]', player1.name);
-            const el = `<p> ${getTime()} - ${text}</p>`;
-            chat.insertAdjacentHTML('afterbegin', el);
-            break;
-        }
-        case 'end':{
-            const text = logs[type][getRandom(logs[type].length) - 1].replace('[playerWins]', player2.name).replace('[playerLose]', player1.name);
-            const el = `<p> ${text} </p>`;
-            chat.insertAdjacentHTML('afterbegin', el);
-            break;
-        }
-        default: {
-            const text = logs[type];
-            const el = `<p> ${text} </p>`;
-            chat.insertAdjacentHTML('afterbegin', el);
-        }
-    }
-}
-
-
-
-export default generateLogs;

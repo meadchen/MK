@@ -170,10 +170,14 @@ body {
 .chat {
     width: 786px;
     height: 30vh;
-    background: url(./assets/versus.png);
+    background-image: url(./assets/versus.png);
     background-size: cover;
     background-position: center;
     border-top: 4px solid #f5d100;
+    padding: 6px 40px;
+    overflow: scroll;
+    color: white;
+    font-family: Arial;
 }
 
 .character {
@@ -184,7 +188,7 @@ body {
 }
 
 .character.winner{
- animation: winner 1s linear infinite;
+    animation: winner 1s linear infinite;
 }
 
 .player1 .character {
