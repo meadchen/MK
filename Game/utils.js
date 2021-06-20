@@ -28,6 +28,6 @@ export const createElement = (tag, className) => {
      arenas.appendChild(reloadWrap);
 
      button.addEventListener('click', function(){
-         window.location.pathname = 'MK/index.html';
+         window.location.pathname = '/index.html';
      })
  }
