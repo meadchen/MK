@@ -1,6 +1,6 @@
 import {createElement, createReloadButton, getRandom, getTime} from "./utils.js";
 import {ATTACK, formFight, buttonFight, HIT, logs} from './variables.js';
-import Player from "../Players";
+import Player from "../Players/index.js";
 import Enemy from "./enemy.js";
 
 
