@@ -1,28 +1,14 @@
-import {createElement, createReloadButton, getRandom, getTime} from "../utils.js";
-import {ATTACK, formFight, buttonFight, HIT, logs} from '../variables.js';
+import {createElement, createReloadButton, getRandom, getTime} from "./utils.js";
+import {ATTACK, formFight, buttonFight, HIT, logs} from './variables.js';
 import Player from "../Players";
+import Enemy from "./enemy.js";
+
+
 
 export const arenas = document.querySelector('.arenas');
 
 class Game {
     constructor(props) {
-        this.player1 = new Player({
-            player: 1,
-            name: 'Scorpion',
-            hp: 100,
-            img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-            weapon: ['sword', 'knife', 'gun'],
-            rootSelector: 'arenas'
-        });
-
-        this.player2 = new Player({
-            player: 2,
-            name: 'Sub Zero',
-            hp: 100,
-            img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-            weapon: ['sword', 'knife', 'gun'],
-            rootSelector: 'arenas'
-        });
 
     }
 
@@ -43,15 +29,20 @@ class Game {
     }
 
 
-    enemyAttack = () =>{
+    enemyAttack = async() => {
         const hit = ATTACK[getRandom(3) - 1];
         const defence = ATTACK[getRandom(3) - 1];
-        return {
-            value: getRandom(HIT[hit]),
-            hit,
-            defence,
-        }
+        const data = await fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+                method: 'POST',
+                body: JSON.stringify({
+                    hit: hit,
+                    defence: defence,
+                })
+            }).then(response => response.json());
+        console.log(data.player2)
+        return data.player2;
     }
+
 
 
     playerAttack = () =>{
@@ -128,16 +119,35 @@ class Game {
             chat.insertAdjacentHTML('afterbegin', el);
         }
     }
-    start = () =>{
 
+    getPlayers = async() =>{
+        const body = fetch('https://reactmarathon-api.herokuapp.com/api/mk/players')
+            .then (res => res.json());
+        return body;
+    }
+
+    start = async() =>{
+        const players = await this.getPlayers();
+        const p1 = JSON.parse(localStorage.getItem('player1'));
+        let enemy = new Enemy();
+        const p2 = await enemy.start();
+        this.player1 = new Player({
+            ...p1,
+            player: 1,
+            rootSelector: 'arenas',
+        })
+        this.player2 = new Player({
+            ...p2,
+            player: 2,
+            rootSelector: 'arenas',
+        })
         this.player1.createPlayer();
-        this.player2.createPlayer();
+        this. player2.createPlayer();
+        this.generateLogs('start', this.player1, this.player2);
 
-        this.generateLogs('start', this.player2, this.player1);
-
-        formFight.addEventListener('submit', (e) =>{
+        formFight.addEventListener('submit',  async(e) =>{
             e.preventDefault();
-            const enemy = this.enemyAttack();
+            const enemy = await this.enemyAttack();
             const player = this.playerAttack();
             this.player1.attackValue = player.value;
             this.player2.attackValue = enemy.value;
@@ -167,5 +177,6 @@ class Game {
         });
     }
 }
+
 
 export default Game;
