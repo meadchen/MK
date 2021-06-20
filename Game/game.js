@@ -32,7 +32,7 @@ class Game {
     enemyAttack = async() => {
         const hit = ATTACK[getRandom(3) - 1];
         const defence = ATTACK[getRandom(3) - 1];
-        const data = await fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+        const data = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
                 method: 'POST',
                 body: JSON.stringify({
                     hit: hit,
