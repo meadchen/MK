@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import {createElement} from "../Game/utils.js";
 
 class Player {
     constructor(props) {

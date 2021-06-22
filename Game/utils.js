@@ -1,4 +1,4 @@
-import {arenas} from "./Game/game.js";
+import {arenas} from "./game.js";
 
 export const createElement = (tag, className) => {
     const createdTag = document.createElement(tag);
@@ -28,6 +28,6 @@ export const createElement = (tag, className) => {
      arenas.appendChild(reloadWrap);
 
      button.addEventListener('click', function(){
-         window.location.reload();
+         window.location.pathname = '/index.html';
      })
  }
